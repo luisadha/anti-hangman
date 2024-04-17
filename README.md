@@ -1,5 +1,7 @@
 # anti-hangman
-Anti-hangman like hangman games but it's difference , Using permutations method written in Bash script
+Anti-hangman like hangman games but it's difference, Using permutations method written in Bash script.
+
+It's probably the easiest hangman-like game to play but why not give it a try? Have fun.
 
 # Usage:
 
