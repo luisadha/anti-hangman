@@ -9,10 +9,13 @@ It's probably the easiest hangman-like game to play but why not give it a try? H
 
 
 # Dependencies
-
+- curl
+- git
 - crunch
 - coreutils
-- awk
+- gawk
+- gnugrep
+- findutils
   
 # References
 - https://stackoverflow.com/questions/4687722/dynamic-case-statement-in-bash#19771433
