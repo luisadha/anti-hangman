@@ -1,8 +1,9 @@
 #!/data/data/com.termux/files/usr/bin/bash
+#!/data/data/com.termux.nix/files/usr/bin/bash
 
-
-# Anti-Hangman v.0.02
-version="0.02"
+# Anti-Hangman v.0.03 
+# - nix-on-droid tested
+version="0.03"
 # Reference :
 # - https://stackoverflow.com/questions/4687722/dynamic-case-statement-in-bash#19771433
 # - https://id.bitdegree.org/tutorial/ide-proyek-python
@@ -17,7 +18,7 @@ version="0.02"
 
 if [ ! $(type -p crunch 2>/dev/null ) ]; then
   echo "Downlading requirments..."
-  pkg install crunch
+  pkg install crunch || nix-env -iA nixpkgs.crunch
   echo "Berhasil"
   echo
 fi
