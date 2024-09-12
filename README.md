@@ -16,7 +16,43 @@ It's probably the easiest hangman-like game to play but why not give it a try? H
 - gawk
 - gnugrep
 - findutils
+  ```nix
   
+# anti-hangman
+Anti-hangman like hangman games but it's difference, Using permutations method written in Bash script.
+
+
+It's probably the easiest hangman-like game to play but why not give it a try? Have fun.
+
+
+# Usage:
+
+
+```bash anti-hangman.sh```
+
+
+
+
+# Dependencies
+- curl
+- git
+- crunch
+- coreutils
+- gawk
+- gnugrep
+- findutils
+
+## install on Nix-on-droid
+
+```nix
+nix-build
+```
+
+
+```nix
+nix-env -i ./result
+```
+
 # References
 - https://stackoverflow.com/questions/4687722/dynamic-case-statement-in-bash#19771433
 - https://id.bitdegree.org/tutorial/ide-proyek-python
