@@ -6,7 +6,16 @@ pkgs.stdenv.mkDerivation {
 
   src = ./.;
 
-  buildInputs = [ pkgs.bash ];
+  buildInputs = [
+    pkgs.bash
+    pkgs.curl
+    pkgs.coreutils
+    pkgs.crunch
+    pkgs.git
+    pkgs.gnugrep
+    pkgs.gawk
+    pkgs.findutils
+  ];
 
   buildPhase = ''
     mkdir -p $out/bin
