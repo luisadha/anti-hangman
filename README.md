@@ -53,6 +53,12 @@ nix-build
 nix-env -i ./result
 ```
 
+## Tested
+| Platform | Status |
+| :---------------- | :------: | 
+| Termux | ✅ | 
+| Nix-on-droid | ✅ |
+
 # References
 - https://stackoverflow.com/questions/4687722/dynamic-case-statement-in-bash#19771433
 - https://id.bitdegree.org/tutorial/ide-proyek-python
