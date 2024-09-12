@@ -3,35 +3,11 @@ Anti-hangman like hangman games but it's difference, Using permutations method w
 
 It's probably the easiest hangman-like game to play but why not give it a try? Have fun.
 
-# Usage:
-
-```bash anti-hangman.sh```
-
-
-# Dependencies
-- curl
-- git
-- crunch
-- coreutils
-- gawk
-- gnugrep
-- findutils
-  ```nix
-  
-# anti-hangman
-Anti-hangman like hangman games but it's difference, Using permutations method written in Bash script.
-
-
-It's probably the easiest hangman-like game to play but why not give it a try? Have fun.
-
 
 # Usage:
 
 
 ```bash anti-hangman.sh```
-
-
-
 
 # Dependencies
 - curl
