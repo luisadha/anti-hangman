@@ -44,14 +44,17 @@ It's probably the easiest hangman-like game to play but why not give it a try? H
 
 ## install on Nix-on-droid
 
+a. build
+
 ```nix
 nix-build
 ```
-
+b. create nix virtual environment
 
 ```nix
 nix-shell -p ./result
 ```
+c. call the program
 
 ```sh
 anti-hangman
