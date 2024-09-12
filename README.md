@@ -50,7 +50,11 @@ nix-build
 
 
 ```nix
-nix-env -i ./result
+nix-shell -p ./result
+```
+
+```sh
+anti-hangman
 ```
 
 ## Tested
