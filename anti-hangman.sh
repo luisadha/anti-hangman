@@ -1,7 +1,6 @@
-#!/data/data/com.termux/files/usr/bin/bash
-#!/data/data/com.termux.nix/files/usr/bin/bash
+#!/data/data/com.termux.nix/files/usr/bin/sh
 
-# Anti-Hangman v.0.03 
+# Anti-Hangman v.0.03
 # - nix-on-droid tested
 version="0.03"
 # Reference :
@@ -15,33 +14,49 @@ version="0.03"
 # - awk
 #
 #
+#!/data/data/com.termux/files/usr/bin/bash
 
-if [ ! $(type -p crunch 2>/dev/null ) ]; then
-  echo "Downlading requirments..."
-  pkg install crunch || nix-env -iA nixpkgs.crunch
-  echo "Berhasil"
-  echo
-fi
+# Anti-Hangman v.0.03
 
-if [ ! -f $PREFIX/var/games/anti-hangman/sowpods.txt ]; then
-  echo "Data kamus diperlukan, Unduh?"
-  read CONT
-  mkdir -p $PREFIX/var/games/anti-hangman
-  curl -fSsl https://raw.githubusercontent.com/jesstess/Scrabble/master/scrabble/sowpods.txt -o $PREFIX/var/games/anti-hangman/sowpods.txt
-  if [ $? -eq 0 ]; then
-    echo "Berhasil download data, silahkan jalankan ulang!"
-    exit 0
+# Dependensi (pastikan diinstal sebelum menjalankan)
+# - crunch
+# - coreutils
+# - awk
+
+DEPENDENCIES=(crunch curl)
+
+for DEP in "${DEPENDENCIES[@]}"; do
+  if ! command -v "$DEP" &>/dev/null; then
+    echo "Error: $DEP tidak terinstal. Silakan instal sebelum menjalankan skrip."
+    exit 1
+  fi
+done
+
+DICTIONARY_PATH="$PREFIX/var/games/anti-hangman/sowpods.txt"
+
+if [ ! -f "$DICTIONARY_PATH" ]; then
+  echo "Data kamus diperlukan, Unduh? (y/n)"
+  read -r CONT
+  if [ "$CONT" = "y" ]; then
+    mkdir -p "$(dirname "$DICTIONARY_PATH")"
+    curl -fSsl https://raw.githubusercontent.com/jesstess/Scrabble/master/scrabble/sowpods.txt -o "$DICTIONARY_PATH"
+    if [ $? -eq 0 ]; then
+      echo "Berhasil download data, silahkan jalankan ulang!"
+      exit 0
     else
-    echo "Download tidak berhasil"; exit 1;
+      echo "Download tidak berhasil"; exit 1;
     fi
   else
+    echo "Gagal memulai karena kamus tidak tersedia."; exit 1;
+  fi
+fi
+
 
   echo -e "======================================================="
   echo -e "Selamat datang di game Tebak-tebakan."
   echo -e "Uji pengetahuan bahasa inggris umum-mu sekarang juga!"
   echo -e "-----=[ tele: t.me/adharudin14 ]=-----(c)-(2024)--------"
   echo -e "======================================================="
-fi
 
 while true; do
 
@@ -52,7 +67,7 @@ hangman_simulation=$(echo $get_pharse | awk 'BEGIN{FS=""}{for(i=1;i<=NF;i++) if(
 permute_test=$(echo $get_pharse | grep -o . | sort | uniq -d | xargs | tr -d ' ')
 
 # eval echo $get_pharse # Uncomment this if your a noob player
-eval echo $hangman_simulation
+ echo $hangman_simulation
 # eval echo $permute_test
 
 valid=$(crunch 1 1 -p $permute_test 2>/dev/null | xargs | tr ' ' '|' )
