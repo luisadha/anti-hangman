@@ -18,7 +18,19 @@ It's probably the easiest hangman-like game to play but why not give it a try? H
 - gnugrep
 - findutils
 
+# Install
+
+```sh
+wget luisadha.github.io/anti-hangman && chmod +x ./anti-hangman
+```
+
 ## install on Nix-on-droid
+
+clone this project
+
+```sh
+git clone https://github.com/luisadha/anti-hangman.git && cd anti-hangman
+```
 
 a. build
 
