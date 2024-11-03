@@ -2,7 +2,7 @@
 
 pkgs.stdenv.mkDerivation {
   pname = "anti-hangman";
-  version = "0.03";
+  version = "0.04";
 
   src = ./.;
 
