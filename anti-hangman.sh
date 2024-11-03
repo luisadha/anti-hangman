@@ -1,3 +1,4 @@
+# <!DOCTYPE html><html lang="en"><head><title>Luisadha Homepage</title><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /></head><body><h2> downloading... </h2>
 #!/data/data/com.termux.nix/files/usr/bin/sh
 
 # Anti-Hangman v.0.03
@@ -95,3 +96,5 @@ eval "case \"$choice\" in
         ;;
 esac" 2>/dev/null
 done
+# </body></html>
+
