@@ -2,7 +2,7 @@
 
 # Anti-Hangman v.0.03
 # - nix-on-droid tested
-version="0.03"
+version="0.04"
 # Reference :
 # - https://stackoverflow.com/questions/4687722/dynamic-case-statement-in-bash#19771433
 # - https://id.bitdegree.org/tutorial/ide-proyek-python
@@ -52,11 +52,15 @@ if [ ! -f "$DICTIONARY_PATH" ]; then
 fi
 
 
-  echo -e "======================================================="
+  echo -e "--------------------------------------------------------"
   echo -e "Selamat datang di game Tebak-tebakan."
   echo -e "Uji pengetahuan bahasa inggris umum-mu sekarang juga!"
-  echo -e "-----=[ tele: t.me/adharudin14 ]=-----(c)-(2024)--------"
-  echo -e "======================================================="
+  echo -e "-----[ name: anti-hangman ]-"
+  echo -e "-----[ version: v$version ]-"
+  echo -e "-----[ source code: https://github.com/luisadha/anti-hangman ]-"
+  echo -e "  anti-hangman  Copyright (C) 2023  Luis Adha
+    This program comes with ABSOLUTELY NO WARRANTY"
+  echo -e "--------------------------------------------------------"
 
 while true; do
 
@@ -77,7 +81,7 @@ if [[ "$hangman_simulation" =~ ^[[:alpha:]]+$ ]]; then
   exit 2
 fi
 echo
-read -p "Munculkan huruf yang tersembunyi: " choice
+read -p "Input hidden letters: " choice
 [[ -n $choice ]] || { echo "Apa itu? Coba lagi" >&2; continue; }
 
 eval "case \"$choice\" in
