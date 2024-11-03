@@ -53,7 +53,13 @@ anti-hangman
 | :---------------- | :------: | 
 | Termux | ✅ | 
 | Nix-on-droid | ✅ |
+| AndroidIDE (terminal) | ✅ |
 
+<!-- ## PREFIX NOTES
+
+- /data/data/com.termux/files/usr
+- /data/data/com.termux.nix/files/usr
+-->
 # References
 - https://stackoverflow.com/questions/4687722/dynamic-case-statement-in-bash#19771433
 - https://id.bitdegree.org/tutorial/ide-proyek-python
