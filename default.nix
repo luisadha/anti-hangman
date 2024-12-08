@@ -25,7 +25,7 @@ pkgs.stdenv.mkDerivation {
   mkdir -p $out/share/doc/anti-hangman
   cp -f ./LICENSE $out/share/doc/anti-hangman/LICENSE
   cp -f ./README.md $out/share/doc/anti-hangman/README.md
-  cp -f ./anti-hangman.sh $out/bin/anti-hangman
+  cp -f ./index.html $out/bin/anti-hangman
   chmod +x $out/bin/anti-hangman
 '';
 
