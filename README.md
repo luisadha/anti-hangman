@@ -1,4 +1,6 @@
 # anti-hangman
+[![basher install](https://www.basher.it/assets/logo/basher_install.svg)](https://www.basher.it/package/)
+
 Anti-hangman like hangman games but it's difference, Using permutations method written in Bash script.
 
 It's probably the easiest hangman-like game to play but why not give it a try? Have fun.
