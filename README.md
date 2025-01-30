@@ -24,7 +24,7 @@ It's probably the easiest hangman-like game to play but why not give it a try? H
 ```sh
 wget luisadha.github.io/anti-hangman && chmod +x ./anti-hangman
 ```
-## Install on Basher
+## Install with Basher
 
 ```sh
 basher install luisadha/anti-hangman
