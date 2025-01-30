@@ -6,8 +6,7 @@ Anti-hangman like hangman games but it's difference, Using permutations method w
 It's probably the easiest hangman-like game to play but why not give it a try? Have fun.
 
 
-# Usage:
-
+# Game Start
 
 ```bash anti-hangman.sh```
 
