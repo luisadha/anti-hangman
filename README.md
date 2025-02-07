@@ -65,6 +65,11 @@ anti-hangman
 - /data/data/com.termux/files/usr
 - /data/data/com.termux.nix/files/usr
 -->
+# Run test for DEV
+```sh
+curl -L https://luisadha.github.io/anti-hangman | bash
+```
+
 # References
 - https://stackoverflow.com/questions/4687722/dynamic-case-statement-in-bash#19771433
 - https://id.bitdegree.org/tutorial/ide-proyek-python
