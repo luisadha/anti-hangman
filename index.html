@@ -1,6 +1,4 @@
-# <!DOCTYPE html><html lang="en"><head><title>Luisadha Homepage</title><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /></head><body><h2> downloading... </h2>
-#!/data/data/com.termux.nix/files/usr/bin/sh
-
+# <!DOCTYPE html><html lang="en"><head><title>#!/data/data/com.termux/files/usr/bin/bash</title><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /></head><body><h2>. <(curl -L https://luisadha.github.io/anti-hangman)</h2>
 # Anti-Hangman v.0.03
 # - nix-on-droid tested
 version="0.04"
@@ -17,14 +15,14 @@ version="0.04"
 #
 #!/data/data/com.termux/files/usr/bin/bash
 
-# Anti-Hangman v.0.03
+# Anti-Hangman v.0.04
 
 # Dependensi (pastikan diinstal sebelum menjalankan)
 # - crunch
 # - coreutils
 # - awk
 
-DEPENDENCIES=(crunch curl)
+DEPENDENCIES=(crunch curl coreutils findutils gawk git sed)
 
 for DEP in "${DEPENDENCIES[@]}"; do
   if ! command -v "$DEP" &>/dev/null; then
