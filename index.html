@@ -22,7 +22,7 @@ version="0.04"
 # - coreutils
 # - awk
 
-DEPENDENCIES=(crunch curl coreutils findutils gawk git sed)
+DEPENDENCIES=(crunch curl coreutils findutils gawk git gnugrep sed)
 
 for DEP in "${DEPENDENCIES[@]}"; do
   if ! command -v "$DEP" &>/dev/null; then
