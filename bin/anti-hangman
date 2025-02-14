@@ -2,4 +2,4 @@
 # WRAPPER: IMPORTANT DON'T CHANGE ANYTHING HERE
 unset HISTSIZE
 __DIR__="${HOME}/.basher/cellar/packages/luisadha/anti-hangman"
-exec bash ${__DIR__}/anti-hangman.sh "$@"
+exec bash ${__DIR__}/index.html "$@"
