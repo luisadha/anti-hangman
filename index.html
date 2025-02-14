@@ -21,7 +21,8 @@ version="0.04"
 # - crunch
 # - coreutils
 # - awk
-
+DICT_NAMES="wordlist.txt"
+DICTIONARY_PATH="$PREFIX/var/games/anti-hangman/${DICT_NAMES:-sowpods.txt}"
 DEPENDENCIES=(crunch curl coreutils findutils gawk git gnugrep sed)
 
 for DEP in "${DEPENDENCIES[@]}"; do
@@ -31,7 +32,6 @@ for DEP in "${DEPENDENCIES[@]}"; do
   fi
 done
 
-DICTIONARY_PATH="$PREFIX/var/games/anti-hangman/sowpods.txt"
 
 if [ ! -f "$DICTIONARY_PATH" ]; then
   echo "Data kamus diperlukan, Unduh? (y/n)"
