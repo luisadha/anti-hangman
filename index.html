@@ -23,7 +23,7 @@ version="0.04"
 # - awk
 DICT_NAMES="wordlist.txt"
 DICTIONARY_PATH="$PREFIX/var/games/anti-hangman/${DICT_NAMES:-sowpods.txt}"
-DEPENDENCIES=(crunch curl coreutils find gawk git gnugrep sed)
+DEPENDENCIES=(crunch curl coreutils find gawk git grep sed)
 
 for DEP in "${DEPENDENCIES[@]}"; do
   if ! command -v "$DEP" &>/dev/null; then
