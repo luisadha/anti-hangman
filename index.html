@@ -84,8 +84,8 @@ echo
 read -p "Input hidden letters: " choice
 [[ -n $choice ]] || { echo "Apa itu? Coba lagi" >&2; continue; }
 
-eval "case \"$choice\" in
-    $valid)
+case "$choice" in
+    "$valid")
         echo "Selamat, tebakan anda benar"
         break;
         ;;
@@ -93,6 +93,6 @@ eval "case \"$choice\" in
         echo "Coba lagi!"
         continue;
         ;;
-esac" 2>/dev/null
+esac 2>/dev/null
 done
 #</code></pre><footer>#### Copyright (C) 2021-2025 <a href="https://luisadha.my.id">luisadha.my.id</a> (<a href="https://github.com/luisadha">github.com/luisadha</a>) ####</footer><a href="https://asciinema.org/a/704914" target="_blank"><img src="https://asciinema.org/a/704914.svg" /></a><div id="player"></div><script src="asciinema-player.min.js"></script><script> AsciinemaPlayer.create(     '/assets/704914.cast',    document.getElementById('player'),     { cols: 54, rows: 28 }   );  </script></body></html>
