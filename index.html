@@ -36,7 +36,7 @@ done
 
 if [ ! -f "$DICTIONARY_PATH" ]; then
   echo "Data kamus diperlukan, Unduh? (y/n)"
-  read -r CONT
+  read -r CONT < /dev/tty;
   if [ "$CONT" = "y" ]; then
     mkdir -p "$(dirname "$DICTIONARY_PATH")"
     curl -fSsl https://raw.githubusercontent.com/jesstess/Scrabble/master/scrabble/sowpods.txt -o "$DICTIONARY_PATH"
@@ -81,7 +81,7 @@ if [[ "$hangman_simulation" =~ ^[[:alpha:]]+$ ]]; then
   exit 2
 fi
 echo
-read -p "Input hidden letters: " choice
+read -p "Input hidden letters: " choice < /dev/tty;
 [[ -n $choice ]] || { echo "Apa itu? Coba lagi" >&2; continue; }
 
 case "$choice" in
