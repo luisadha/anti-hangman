@@ -65,7 +65,7 @@ anti-hangman
 - /data/data/com.termux/files/usr
 - /data/data/com.termux.nix/files/usr
 -->
-# Run test for DEV
+# Bug fixs while type :
 ```sh
 curl -L https://luisadha.github.io/anti-hangman | bash
 ```
