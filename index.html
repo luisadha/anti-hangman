@@ -67,29 +67,43 @@ hangman_simulation=$(echo $get_pharse | awk 'BEGIN{FS=""}{for(i=1;i<=NF;i++) if(
 
 permute_test=$(echo $get_pharse | grep -o . | sort | uniq -d | xargs | tr -d ' ')
 
-# eval echo $get_pharse # Uncomment this if your a noob player
- echo $hangman_simulation
-# eval echo $permute_test
-
 valid=$(crunch 1 1 -p $permute_test 2>/dev/null | xargs | tr ' ' '|' )
+
+# OLD DEBUG
+  # eval echo $get_pharse # Uncomment this if your a noob player
+  # echo $hangman_simulation
+  # eval echo $permute_test
+  
+# DEBUG
+  [ "$DEBUG" = 1 ] && {
+    echo "DEBUG: get_pharse=$get_pharse"
+    echo "DEBUG: permute_test=$permute_test"
+    echo "DEBUG: hangman_simulation=$hangman_simulation"
+    echo "DEBUG: valid=${valid}"
+  }
+
+  echo "$hangman_simulation"
+  echo
+
 
 if [[ "$hangman_simulation" =~ ^[[:alpha:]]+$ ]]; then
   echo "Tidak ada tebakan hari ini, Kembali lagi nanti :)"
   exit 2
 fi
-echo
+
 read -p "Input hidden letters: " choice < /dev/tty;
 [[ -n $choice ]] || { echo "Apa itu? Coba lagi" >&2; continue; }
 
-case "$choice" in
-    *[!$valid]*)
-        echo "Selamat, tebakan anda benar"
-        break;
-        ;;
-      *)
-        echo "Coba lagi!"
-        continue;
-        ;;
-esac 2>/dev/null
+choice=$(echo "$choice" | tr '[:lower:]' '[:upper:]')
+choice=${choice// /}
+  # Validasi: semua huruf harus termasuk dalam permute_test
+  if [[ "$choice" =~ ^[$permute_test]+$ ]]; then
+    echo "Selamat, tebakan anda benar"
+    break
+  else
+    echo "Coba lagi!"
+    continue
+  fi
+# 2>/dev/null
 done
 # --> </code></pre><h3>Bermain di Termux</h3><div class="share-line"><span>Salin kode di bawah atau</span><button onclick="share()"><img src="./assets/img/share-icon.png" alt="Share Icon" width="11px" height="11px"> Bagikan ke Termux (harus Nene-Ak47)</button>  </div> <pre>    <code class="language-shell">. &lt;(curl -L luisadha.github.io/anti-hangman)</code></pre>   <div class="note">       <strong>Catatan: </strong>       Agar tombol <em>Bagikan ke Termux</em>      berfungsi dengan benar, kamu harus mengganti handler   </div> <code>termux-url-opener</code>ke Nene-Ak47. Panduan lengkap silahkan baca di <a href="https://github.com/luisadha/nene#api">https://github.com/luisadha/nene#api</a>       <footer>          <p> (C) 2021–2025            <a href="https://luisadha.my.id">luisadha.my.id</a>          <a href="https://github.com/luisadha">github.com/luisadha</a>           </p>       </footer>           </body>           </html>
