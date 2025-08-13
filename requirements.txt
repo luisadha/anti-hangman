@@ -1,0 +1,7 @@
+curl
+git
+crunch
+coreutils
+gawk
+gnugrep
+findutils
