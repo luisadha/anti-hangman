@@ -16,6 +16,7 @@ jobs:
       - name: Set variables
         run: |
           VERSION="${GITHUB_REF_NAME#v}"
+          - name: Update script version
           PACKAGE=$(basename $GITHUB_REPOSITORY)
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "PACKAGE=$PACKAGE" >> $GITHUB_ENV
@@ -26,6 +27,8 @@ jobs:
           mkdir -p build/${{ env.PACKAGE }}_${{ env.VERSION }}/data/data/com.termux/files/usr/bin
 
           # copy skrip utama ke PREFIX/bin
+          sed -i "s/^# version:.*/# version: $VERSION/" index.html
+          sed -i "s/^version=.*/version=$VERSION/" index.html
           cp index.html build/${{ env.PACKAGE }}_${{ env.VERSION }}/data/data/com.termux/files/usr/bin/${{ env.PACKAGE }}
           chmod 755 build/${{ env.PACKAGE }}_${{ env.VERSION }}/data/data/com.termux/files/usr/bin/${{ env.PACKAGE }}
 
