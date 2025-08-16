@@ -1,5 +1,4 @@
 name: Build .deb package
-
 on:
   release:
     types: [published]
@@ -10,7 +9,6 @@ permissions:
 jobs:
   build-deb:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -25,13 +23,12 @@ jobs:
       - name: Prepare debian package structure
         run: |
           mkdir -p build/${{ env.PACKAGE }}_${{ env.VERSION }}/DEBIAN
-          mkdir -p build/${{ env.PACKAGE }}_${{ env.VERSION }}/usr/bin
+          mkdir -p build/${{ env.PACKAGE }}_${{ env.VERSION }}/data/data/com.termux/files/usr/bin
 
-          # copy semua skrip dari bin/ ke /usr/bin/
-          # copy dan rename index.html menjadi nama paket 
-          cp index.html build/${{ env.PACKAGE }}_${{ env.VERSION }}/usr/bin/${{ env.PACKAGE }} 
-          chmod 755 build/${{ env.PACKAGE }}_${{ env.VERSION }}/usr/bin/${{ env.PACKAGE }}
-          
+          # copy skrip utama ke PREFIX/bin
+          cp index.html build/${{ env.PACKAGE }}_${{ env.VERSION }}/data/data/com.termux/files/usr/bin/${{ env.PACKAGE }}
+          chmod 755 build/${{ env.PACKAGE }}_${{ env.VERSION }}/data/data/com.termux/files/usr/bin/${{ env.PACKAGE }}
+
           # bikin control file
           cat > build/${{ env.PACKAGE }}_${{ env.VERSION }}/DEBIAN/control <<EOF
           Package: ${{ env.PACKAGE }}
@@ -46,7 +43,7 @@ jobs:
       - name: Build .deb
         run: |
           dpkg-deb --build build/${{ env.PACKAGE }}_${{ env.VERSION }}
-          mv build/${{ env.PACKAGE }}_${{ env.VERSION }}.deb ${{ env.PACKAGE }}_${{ env.VERSION }}_all.deb
+          mv build/${{ env.PACKAGE }}_${{ env.VERSION }}.deb ${{ env.PACKAGE }}_${{ env.VERSION }}_all-termux.deb
 
       - name: Upload to release
         uses: softprops/action-gh-release@v2
