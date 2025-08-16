@@ -48,4 +48,4 @@ jobs:
       - name: Upload to release
         uses: softprops/action-gh-release@v2
         with:
-          files: ${{ env.PACKAGE }}_${{ env.VERSION }}_all.deb
+          files: ${{ env.PACKAGE }}_${{ env.VERSION }}_all-termux.deb
