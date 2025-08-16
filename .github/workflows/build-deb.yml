@@ -1,0 +1,49 @@
+name: Build .deb package
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build-deb:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set variables
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"   # hapus prefix v kalau ada
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "PACKAGE=$(basename $GITHUB_REPOSITORY)" >> $GITHUB_ENV
+
+      - name: Prepare debian package structure
+        run: |
+          mkdir -p build/${PACKAGE}_${VERSION}/DEBIAN
+          mkdir -p build/${PACKAGE}_${VERSION}/usr/bin
+
+          # copy script bash ke /usr/bin/
+          cp index.html build/${PACKAGE}_${VERSION}/usr/bin/${PACKAGE}
+          chmod 755 build/${PACKAGE}_${VERSION}/usr/bin/${PACKAGE}
+
+          # bikin file control
+          cat > build/${PACKAGE}_${VERSION}/DEBIAN/control <<EOF
+          Package: ${PACKAGE}
+          Version: ${VERSION}
+          Architecture: all
+          Maintainer: Luis Adha <adharudin14@gmail.com>
+          Description: Bash script project ${PACKAGE}
+          Priority: optional
+          Section: utils
+          EOF
+
+      - name: Build .deb
+        run: |
+          dpkg-deb --build build/${PACKAGE}_${VERSION}
+          mv build/${PACKAGE}_${VERSION}.deb ${PACKAGE}_${VERSION}_all.deb
+
+      - name: Upload to release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${PACKAGE}_${VERSION}_all.deb
