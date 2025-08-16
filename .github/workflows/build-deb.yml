@@ -4,6 +4,9 @@ on:
   release:
     types: [published]
 
+permissions:
+  contents: write
+
 jobs:
   build-deb:
     runs-on: ubuntu-latest
@@ -14,36 +17,37 @@ jobs:
 
       - name: Set variables
         run: |
-          VERSION="${GITHUB_REF_NAME#v}"   # hapus prefix v kalau ada
+          VERSION="${GITHUB_REF_NAME#v}"
+          PACKAGE=$(basename $GITHUB_REPOSITORY)
           echo "VERSION=$VERSION" >> $GITHUB_ENV
-          echo "PACKAGE=$(basename $GITHUB_REPOSITORY)" >> $GITHUB_ENV
+          echo "PACKAGE=$PACKAGE" >> $GITHUB_ENV
 
       - name: Prepare debian package structure
         run: |
-          mkdir -p build/${PACKAGE}_${VERSION}/DEBIAN
-          mkdir -p build/${PACKAGE}_${VERSION}/usr/bin
+          mkdir -p build/${{ env.PACKAGE }}_${{ env.VERSION }}/DEBIAN
+          mkdir -p build/${{ env.PACKAGE }}_${{ env.VERSION }}/usr/bin
 
-          # copy script bash ke /usr/bin/
-          cp index.html build/${PACKAGE}_${VERSION}/usr/bin/${PACKAGE}
-          chmod 755 build/${PACKAGE}_${VERSION}/usr/bin/${PACKAGE}
+          # copy semua skrip dari bin/ ke /usr/bin/
+          cp -r index.html build/${{ env.PACKAGE }}_${{ env.VERSION }}/usr/bin/
+          chmod 755 build/${{ env.PACKAGE }}_${{ env.VERSION }}/usr/bin/*
 
-          # bikin file control
-          cat > build/${PACKAGE}_${VERSION}/DEBIAN/control <<EOF
-          Package: ${PACKAGE}
-          Version: ${VERSION}
+          # bikin control file
+          cat > build/${{ env.PACKAGE }}_${{ env.VERSION }}/DEBIAN/control <<EOF
+          Package: ${{ env.PACKAGE }}
+          Version: ${{ env.VERSION }}
           Architecture: all
-          Maintainer: Luis Adha <adharudin14@gmail.com>
-          Description: Bash script project ${PACKAGE}
+          Maintainer: Stranger <you@example.com>
+          Description: Bash script project ${{ env.PACKAGE }}
           Priority: optional
           Section: utils
           EOF
 
       - name: Build .deb
         run: |
-          dpkg-deb --build build/${PACKAGE}_${VERSION}
-          mv build/${PACKAGE}_${VERSION}.deb ${PACKAGE}_${VERSION}_all.deb
+          dpkg-deb --build build/${{ env.PACKAGE }}_${{ env.VERSION }}
+          mv build/${{ env.PACKAGE }}_${{ env.VERSION }}.deb ${{ env.PACKAGE }}_${{ env.VERSION }}_all.deb
 
       - name: Upload to release
         uses: softprops/action-gh-release@v2
         with:
-          files: ${PACKAGE}_${VERSION}_all.deb
+          files: ${{ env.PACKAGE }}_${{ env.VERSION }}_all.deb
