@@ -15,8 +15,8 @@ jobs:
 
       - name: Set variables
         run: |
-          VERSION="${GITHUB_REF_NAME#v}"
           - name: Update script version
+          VERSION="${GITHUB_REF_NAME#v}"
           PACKAGE=$(basename $GITHUB_REPOSITORY)
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "PACKAGE=$PACKAGE" >> $GITHUB_ENV
