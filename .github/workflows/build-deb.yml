@@ -28,6 +28,8 @@ jobs:
           # copy skrip utama ke PREFIX/bin
           sed -i "s/^# version:.*/# version: $VERSION/" index.html
           sed -i "s/^version=.*/version=$VERSION/" index.html
+          cp README.md build/${{ env.PACKAGE }}_${{ env.VERSION }}/data/data/com.termux/files/usr/share/doc/${{ env.PACKAGE }}/README.md
+          cp LICENSE build/${{ env.PACKAGE }}_${{ env.VERSION }}/data/data/com.termux/files/usr/share/doc/${{ env.PACKAGE }}/LICENSE
           cp index.html build/${{ env.PACKAGE }}_${{ env.VERSION }}/data/data/com.termux/files/usr/bin/${{ env.PACKAGE }}
           chmod 755 build/${{ env.PACKAGE }}_${{ env.VERSION }}/data/data/com.termux/files/usr/bin/${{ env.PACKAGE }}
 
