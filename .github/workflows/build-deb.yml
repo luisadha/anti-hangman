@@ -36,10 +36,10 @@ jobs:
           Package: ${{ env.PACKAGE }}
           Version: ${{ env.VERSION }}
           Architecture: all
-          Maintainer: Stranger <you@example.com>
-          Description: Bash script project ${{ env.PACKAGE }}
+          Maintainer: Luis Adha <adharudin14@gmail.com>
+          Description: ${{ env.PACKAGE }} like hangman games but it's difference , written in Bash
           Priority: optional
-          Section: utils
+          Section: games
           EOF
 
       - name: Build .deb
