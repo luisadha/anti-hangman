@@ -24,7 +24,7 @@ jobs:
         run: |
           mkdir -p build/${{ env.PACKAGE }}_${{ env.VERSION }}/DEBIAN
           mkdir -p build/${{ env.PACKAGE }}_${{ env.VERSION }}/data/data/com.termux/files/usr/bin
-          mkdir -p build/${{ env.PACKAGE }}_${{ env.VERSION }}/data/data/com.termux/files/usr/share/doc
+          mkdir -p build/${{ env.PACKAGE }}_${{ env.VERSION }}/data/data/com.termux/files/usr/share/doc/${{ env.PACKAGE }}
           
 
           # copy skrip utama ke PREFIX/bin
