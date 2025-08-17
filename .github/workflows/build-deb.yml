@@ -24,6 +24,8 @@ jobs:
         run: |
           mkdir -p build/${{ env.PACKAGE }}_${{ env.VERSION }}/DEBIAN
           mkdir -p build/${{ env.PACKAGE }}_${{ env.VERSION }}/data/data/com.termux/files/usr/bin
+          mkdir -p build/${{ env.PACKAGE }}_${{ env.VERSION }}/data/data/com.termux/files/usr/share/doc
+          
 
           # copy skrip utama ke PREFIX/bin
           sed -i "s/^# version:.*/# version: $VERSION/" index.html
