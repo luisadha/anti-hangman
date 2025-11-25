@@ -53,24 +53,23 @@ cout() {
 
     # printf %q → aman dari eval
     # sed → hilangkan backslash tanpa menyentuh karakter lain
-    printf '%s' "$msg" | sed 's/\\//g' >&5
+    printf '%s' "$msg" >&5
     printf '\n' >&5
 }
 cin() {
     local prompt="$1"
     local varname="$2"
 
-    # Tampilkan prompt
-    printf '%s' "$prompt"  >&5
-    printf ' ' >&5
+    exec 4</dev/tty
+    exec 5>/dev/tty
 
-    # Baca 1 char dari TTY
+    printf "%s " "$prompt" >&5
+
     local ans
-    IFS= read ans <&4
+    IFS= read -r ans <&4
 
-    # Simpan ke variabel pemanggil
     printf -v "$varname" '%s' "$ans"
-} 
+}
 
   echo -e "--------------------------------------------------------"
   echo -e "Selamat datang di game Tebak-tebakan."
@@ -110,7 +109,7 @@ valid=$(crunch 1 1 -p $permute_test 2>/dev/null | xargs | tr ' ' '|' )
 
 
 if [[ "$hangman_simulation" =~ ^[[:alpha:]]+$ ]]; then
-  echo "Tidak ada tebakan hari ini, Kembali lagi nanti :)"
+  cout "Tidak ada tebakan hari ini, Kembali lagi nanti :)"
   exit 2
 fi
 
