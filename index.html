@@ -110,7 +110,7 @@ valid=$(crunch 1 1 -p $permute_test 2>/dev/null | xargs | tr ' ' '|' )
 
 if [[ "$hangman_simulation" =~ ^[[:alpha:]]+$ ]]; then
   cout "Tidak ada tebakan hari ini, Kembali lagi nanti :)"
-  exit 0
+  exit 2
 fi
 
 cout "Input hidden letters:(_)"
