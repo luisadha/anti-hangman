@@ -1,134 +1,125 @@
 #!/usr/bin/env bash<!DOCTYPE html>  <html lang="id">   <head>       <meta charset="UTF-8" />       <meta name="viewport" content="width=device-width, initial-scale=1.0" />       <title>Anti-Hangman | Pilih Aplikasi Termux</title>         <link rel="stylesheet" href="asciinema-player.css" />         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.3/gh-fork-ribbon.min.css" />        <link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.5.0/styles/default.min.css" />         <script src="https://unpkg.com/@highlightjs/cdn-assets@11.5.0/highlight.min.js">         </script><script>hljs.initHighlightingOnLoad();         </script>         <script>function share() {      if (navigator.share) {      navigator.share({          title: document.title,          url: 'https://luisadha.github.io/anti-hangman/'         });      } else {        alert("Fitur berbagi tidak didukung di browser ini.");      }    } </script>          <style>    body {      font-family: monospace;      background: #f5f5f5;      padding: 1em;    }    h2, h3 {      margin-top: 1.5em;    }   code {      display: block;      background: #0b0c0e;      color: #f0f0f0;      padding: 1em;      border-radius: 5px;      overflow-x: auto;    }    .github-fork-ribbon:before {      background-color: #0b0c0e;    }    footer {      font-size: 0.75rem;      margin-top: 3em;    }    .share-line {     display: flex;      align-items: center;     gap: 0.5em;      flex-wrap: wrap;      margin-top: 0.5em;    }    button {      font-family: inherit;      font-size: 0.9em;      padding: 0.4em 0.8em;      border: none;     background: #0b0c0e;      color: white;     border-radius: 4px;      cursor: pointer;    }   button:hover {      background: #333;    }    #player {     max-width: 100%;      margin-top: 1em;    }    iframe, .asciinema-player {      width: 100% !important;      height: auto !important;    }    .note {      font-size: 0.9em;      background: #fff9c4;      padding: 1em;      border-left: 5px solid #fbc02d;      margin-top: 1em;    }  </style>  <style> .share {    font-weight: bold;    position: relative; } .share:before {    content: ".";    font-size: 2.2em;    position: absolute;     bottom: -2.5px;    left: -4px; }  .share:after {     content: ":";    font-size: 2em;    position: absolute;    bottom: -6px;    right: -7px; } </style>       </head>         <body> <!-- Fork ribbon -->  <a class="github-fork-ribbon" href="https://github.com/luisadha/anti-hangman"     data-ribbon="Contribute on GitHub" title="Contribute on GitHub">   Contribute on GitHub  </a>         <p><a href="https://luisadha.github.io/anti-hangman">Anti-Hangman</a> Is hangman-like games but it's difference, written in Pure Bash</p>         <p>— Gunakan   self-hosted ini untuk memainkan permainan hangman yang lebih sulit di termux anda.</p>         <p>             <h3>Preview</h3>             <a href="https://asciinema.org/a/704914" target="_blank">                 <img src="https://asciinema.org/a/704914.svg" alt="Preview animation" style="max-width: 100%; height: auto;" />             </a>  <pre><code class="language-shell"> <!--
-version="0.20"
-[ "${1:-}" = "-v" ] || [ "${1:-}" = "--version" ] && { echo "anti-hangman v${version}"; exit; } || 
-# Anti-Hangman 
-# - nix-on-droid tested
-# Reference :
-# - https://stackoverflow.com/questions/4687722/dynamic-case-statement-in-bash#19771433
-# - https://id.bitdegree.org/tutorial/ide-proyek-python
-# - https://github.com/jesstess/Scrabble/blob/master/scrabble/sowpods.txt
-# Dependend
-# - crunch
-# - coreutils
-# - awk
-#
-#
 #!/data/data/com.termux/files/usr/bin/bash
-exec 4</dev/tty   # input
-exec 5>/dev/tty   # output
-# Dependensi (pastikan diinstal sebelum menjalankan)
-# - crunch
-# - coreutils
-# - awk
+# anti-hangman (bash compatible)
+
+set -euo pipefail
+
+version="0.21"
+
+# ---------------------------
+# Version flag
+# ---------------------------
+if [[ "${1:-}" == "-v" || "${1:-}" == "--version" ]]; then
+  echo "anti-hangman v${version}"
+  exit 0
+fi
+
+# ---------------------------
+# TTY IO
+# ---------------------------
+exec 4</dev/tty
+exec 5>/dev/tty
 
 cout() {
-    local msg="$*"
-
-    # printf %q → aman dari eval
-    # sed → hilangkan backslash tanpa menyentuh karakter lain
-    printf '%s' "$msg" >&5
-    printf '\n' >&5
+  printf '%s\n' "$*" >&5
 }
+
 cin() {
-    local prompt="$1"
-    local varname="$2"
-
-    exec 4</dev/tty
-    exec 5>/dev/tty
-
-    printf "%s " "$prompt" >&5
-
-    local ans
-    IFS= read -r ans <&4
-
-    printf -v "$varname" '%s' "$ans"
+  local prompt="$1"
+  local __var="$2"
+  printf '%s ' "$prompt" >&5
+  IFS= read -r ans <&4
+  printf -v "$__var" '%s' "$ans"
 }
 
-DICT_NAMES="wordlist.txt"
-DICTIONARY_PATH="$PREFIX/var/games/anti-hangman/${DICT_NAMES:-sowpods.txt}"
-DEPENDENCIES=(crunch curl coreutils find gawk git grep sed)
+# ---------------------------
+# Dependency check
+# ---------------------------
+DEPENDENCIES=(crunch curl awk grep sed shuf sort uniq tr)
 
-for DEP in "${DEPENDENCIES[@]}"; do
-  if ! command -v "$DEP" &>/dev/null; then
-    cout "Error: $DEP tidak terinstal. Silakan instal sebelum menjalankan skrip."
+for dep in "${DEPENDENCIES[@]}"; do
+  command -v "$dep" >/dev/null 2>&1 || {
+    cout "Error: $dep belum terinstal."
+    exit 1
+  }
+done
+
+# ---------------------------
+# Dictionary
+# ---------------------------
+DICT_DIR="$PREFIX/var/games/anti-hangman"
+DICT_FILE="$DICT_DIR/sowpods.txt"
+
+if [[ ! -f "$DICT_FILE" ]]; then
+  cout "Kamus tidak ditemukan. Unduh? (y/n)"
+  cin "" CONT
+  if [[ "$CONT" == "y" ]]; then
+    mkdir -p "$DICT_DIR"
+    curl -fsSL \
+      https://raw.githubusercontent.com/jesstess/Scrabble/master/scrabble/sowpods.txt \
+      -o "$DICT_FILE"
+    cout "Download selesai. Jalankan ulang."
+    exit 0
+  else
+    cout "Tidak bisa melanjutkan tanpa kamus."
     exit 1
   fi
-done
-
-
-if [ ! -f "$DICTIONARY_PATH" ]; then
-  cout "Data kamus diperlukan, Unduh? (y/n)"
-  cin "" CONT 
-  if [ "$CONT" = "y" ]; then
-    mkdir -p "$(dirname "$DICTIONARY_PATH")"
-    curl -fSsl https://raw.githubusercontent.com/jesstess/Scrabble/master/scrabble/sowpods.txt -o "$DICTIONARY_PATH"
-    if [ $? -eq 0 ]; then
-      cout "Berhasil download data, silahkan jalankan ulang!"
-      exit 0
-    else
-      cout "Download tidak berhasil"; exit 1;
-    fi
-  else
-    cout "Gagal memulai karena kamus tidak tersedia."; exit 1;
-  fi
 fi
 
+# ---------------------------
+# Banner
+# ---------------------------
+cout "--------------------------------------------------------"
+cout "Selamat datang di game Tebak Kata"
+cout "anti-hangman v$version"
+cout "https://github.com/luisadha/anti-hangman"
+cout "ABSOLUTELY NO WARRANTY"
+cout "--------------------------------------------------------"
 
-  cout -e "--------------------------------------------------------"
-  cout -e "Selamat datang di game Tebak-tebakan."
-  cout -e "Uji pengetahuan bahasa inggris umum-mu sekarang juga!"
-  cout -e "-----[ name: anti-hangman ]-"
-  cout -e "-----[ version: v$version ]-"
-  cout -e "-----[ source code: https://github.com/luisadha/anti-hangman ]-"
-  cout "  anti-hangman  Copyright (C) 2023  Luis Adha
-    This program comes with ABSOLUTELY NO WARRANTY"
-  cout -e "--------------------------------------------------------"
-
+# ---------------------------
+# Game loop
+# ---------------------------
 while true; do
+  get_phrase="$(shuf -n 1 "$DICT_FILE")"
 
-get_pharse=$(mapfile -t word_arr < $PREFIX/var/games/anti-hangman/sowpods.txt && printf '%s\n' "${word_arr[@]}" |shuf -n 1)
+  hangman_simulation="$(
+    awk '
+      {
+        for (i=1;i<=length;i++) {
+          c=substr($0,i,1)
+          if (++seen[c] > 1) printf "_"
+          else printf c
+        }
+        print ""
+      }' <<<"$get_phrase"
+  )"
 
-hangman_simulation=$(cout $get_pharse | awk 'BEGIN{FS=""}{for(i=1;i<=NF;i++) if(seen[$i]++) $i="_"}1')
-
-permute_test=$(cout $get_pharse | grep -o . | sort | uniq -d | xargs | tr -d ' ')
-
-valid=$(crunch 1 1 -p $permute_test 2>/dev/null | xargs | tr ' ' '|' )
-
-# OLD DEBUG
-  # eval echo $get_pharse # Uncomment this if your a noob player
-  # echo $hangman_simulation
-  # eval echo $permute_test
-  
-# DEBUG
-  [ "$DEBUG" = 1 ] && {
-    cout "DEBUG: get_pharse=$get_pharse"
-    cout "DEBUG: permute_test=$permute_test"
-    cout "DEBUG: hangman_simulation=$hangman_simulation"
-    cout "DEBUG: valid=${valid}"
-  }
+  permute_test="$(
+    printf '%s\n' "$get_phrase" |
+    grep -o . |
+    sort |
+    uniq -d |
+    tr -d '\n'
+  )"
 
   cout "$hangman_simulation"
-  cout
+  cout ""
 
-if [[ "$hangman_simulation" =~ ^[[:alpha:]]+$ ]]; then
-  cout "Tidak ada tebakan hari ini, Kembali lagi nanti :)"
-  exit 2
-fi
+  if [[ -z "$permute_test" ]]; then
+    cout "Tidak ada huruf tersembunyi hari ini 🙂"
+    exit 0
+  fi
 
-cout "Input hidden letters:(_)"
-cin "" choice 
-[[ -n $choice ]] || { cout "Apa itu? Coba lagi" >&2; continue; }
+  cout "Input huruf tersembunyi (_):"
+  cin "" choice
+  choice="${choice^^}"
+  choice="${choice// /}"
 
-choice=$(cout "$choice" | tr '[:lower:]' '[:upper:]')
-choice=${choice// /}
-  # Validasi: semua huruf harus termasuk dalam permute_test
-  if [[ $choice =~ ^[$permute_test]+$ ]]; then
-    cout "Selamat, tebakan anda benar"
+  if [[ "$choice" =~ ^[$permute_test]+$ ]]; then
+    cout "✅ Selamat, tebakan benar!"
     break
   else
-    cout "Coba lagi!"
-    continue
+    cout "❌ Salah, coba lagi!"
   fi
-# 2>/dev/null
-done
+done    
 # --> </code></pre><h3>Bermain di Termux</h3><div class="share-line"><span>Salin kode di bawah atau</span><button onclick="share()"><img src="./assets/img/share-icon.png" alt="Share Icon" width="11px" height="11px"> Bagikan ke Termux (harus Nene-Ak47)</button>  </div> <pre>    <code class="language-shell">. &lt;(curl -L luisadha.github.io/anti-hangman)</code></pre>   <div class="note">       <strong>Catatan: </strong>       Agar tombol <em>Bagikan ke Termux</em>      berfungsi dengan benar, kamu harus mengganti handler   </div> <code>termux-url-opener</code>ke Nene-Ak47. Panduan lengkap silahkan baca di <a href="https://github.com/luisadha/nene#api">https://github.com/luisadha/nene#api</a>       <footer>          <p> (C) 2021–2025            <a href="https://luisadha.my.id">luisadha.my.id</a>          <a href="https://github.com/luisadha">github.com/luisadha</a>           </p>       </footer>           </body>           </html>
